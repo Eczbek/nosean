@@ -16,8 +16,8 @@
 #	define NSN_CPL_VER_MINOR_MSVC 0
 #	define NSN_CPL_VER_PATCH_MSVC 0
 
-#	define NSN_CPL_VER_LEAST(compiler, major, minor, patch) (NSN_CPL_TYPE_##compiler && ((NSN_CPL_VER_MAJOR_##compiler > (major)) || (NSN_CPL_VER_MAJOR_##compiler == (major)) && ((NSN_CPL_VER_MINOR_##compiler > (minor)) || (NSN_CPL_VER_MINOR_##compiler == (minor)) && (NSN_CPL_VER_PATCH_##compiler >= (patch)))))
-#	define NSN_CPL_VER_MOST(compiler, major, minor, patch) (NSN_CPL_TYPE_##compiler && ((NSN_CPL_VER_MAJOR_##compiler < (major)) || (NSN_CPL_VER_MAJOR_##compiler == (major)) && ((NSN_CPL_VER_MINOR_##compiler < (minor)) || (NSN_CPL_VER_MINOR_##compiler == (minor)) && (NSN_CPL_VER_PATCH_##compiler <= (patch)))))
+#	define NSN_CPL_VER_LEAST(type_, major_, minor_, patch_) (NSN_CPL_TYPE_##type_ && ((NSN_CPL_VER_MAJOR_##type_ > (major_)) || (NSN_CPL_VER_MAJOR_##type_ == (major_)) && ((NSN_CPL_VER_MINOR_##type_ > (minor_)) || (NSN_CPL_VER_MINOR_##type_ == (minor_)) && (NSN_CPL_VER_PATCH_##type_ >= (patch_)))))
+#	define NSN_CPL_VER_MOST(type_, major_, minor_, patch_) (NSN_CPL_TYPE_##type_ && ((NSN_CPL_VER_MAJOR_##type_ < (major_)) || (NSN_CPL_VER_MAJOR_##type_ == (major_)) && ((NSN_CPL_VER_MINOR_##type_ < (minor_)) || (NSN_CPL_VER_MINOR_##type_ == (minor_)) && (NSN_CPL_VER_PATCH_##type_ <= (patch_)))))
 
 #	ifdef __GNUC__
 #		undef NSN_CPL_TYPE_GCC
