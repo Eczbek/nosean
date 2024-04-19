@@ -1,11 +1,9 @@
-#ifndef NSN_HEADER_TYPE
-#	define NSN_HEADER_TYPE
+#ifndef NSN_HDR_TYPE
+#	define NSN_HDR_TYPE
 
-#	include "./pp/cpl.hpp"
+#	include "./pp/cplr.hpp"
 
 namespace nsn {
-	using nullptr = decltype(nullptr);
-
 	using size = decltype(sizeof(0));
 
 	using ptrdiff = decltype(static_cast<int*>(nullptr) - static_cast<int*>(nullptr));
@@ -43,7 +41,7 @@ namespace nsn {
 
 #	endif
 
-#	if NSN_CPL_TYPE_GCC || NSN_CPL_TYPE_CLANG
+#	if NSN_CPLR_TYPE_GCC || NSN_CPLR_TYPE_CLANG
 #		ifdef __INT8_TYPE__
 
 	using int8 = __INT8_TYPE__;
@@ -113,24 +111,24 @@ namespace nsn {
 	using intmax = __INTMAX_TYPE__;
 	using uintmax = __UINTMAX_TYPE__;
 
-#		ifdef __INTPTR_TYPE__;
+#		ifdef __INTPTR_TYPE__
 
 	using intptr = __INTPTR_TYPE__;
 
 #		endif
 
-#		ifdef __UINTPTR_TYPE__;
+#		ifdef __UINTPTR_TYPE__
 
 	using uintptr = __UINTPTR_TYPE__;
 
 #		endif
 
 	struct max_align {
-		[[alignas(alignof(long long int))]] NSN_DETAIL_MAX_ALIGN_INTEGRAL;
-		[[alignas(alignof(long double))]] NSN_DETAIL_MAX_ALIGN_FRACTIONAL;
+		alignas(alignof(long long int)) long long int NSN_DETAIL_MAX_ALIGN_INTEGRAL;
+		alignas(alignof(long double)) long double NSN_DETAIL_MAX_ALIGN_FRACTIONAL;
 	};
 
-#	elif NSN_CPL_TYPE_MSVC
+#	elif NSN_CPLR_TYPE_MSVC
 
 	using int_least8 = signed char;
 	using int_least16 = short int;
