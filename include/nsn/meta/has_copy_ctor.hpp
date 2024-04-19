@@ -5,7 +5,7 @@
 
 namespace nsn::meta {
 	template<typename type_>
-	inline constexpr bool has_copy_ctor = requires(type_ value) {
+	concept has_copy_ctor = requires(type_ value) {
 		{ type_(value) } -> nsn::meta::same<type_>;
 	};
 }

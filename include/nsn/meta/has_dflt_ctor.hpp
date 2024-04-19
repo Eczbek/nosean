@@ -5,7 +5,7 @@
 
 namespace nsn::meta {
 	template<typename type_>
-	inline constexpr bool has_dflt_ctor = requires {
+	concept has_dflt_ctor = requires {
 		{ type_() } -> nsn::meta::same<type_>;
 	};
 }
