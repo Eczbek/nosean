@@ -2,7 +2,7 @@
 #	define NSN_HDR_PP_VER
 
 #	define NSN_VER_MAJOR 0
-#	define NSN_VER_MINOR 5
-#	define NSN_VER_PATCH 1
+#	define NSN_VER_MINOR 6
+#	define NSN_VER_PATCH 0
 
 #endif
