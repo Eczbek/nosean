@@ -1,5 +1,5 @@
-#ifndef NSN_HEADER_META_COND
-#	define NSN_HEADER_META_COND
+#ifndef NSN_HDR_META_COND
+#	define NSN_HDR_META_COND
 
 namespace nsn::detail {
 	template<bool, typename, typename>
