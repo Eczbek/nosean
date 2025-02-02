@@ -4,7 +4,7 @@
 #include <cstdio>
 #include <string>
 
-std::string nsn::read(std::FILE* stream) {
+std::string nsn::read_file(std::FILE* stream) {
 	std::string result;
 	std::size_t chunk = 1024;
 	while (stream) {

@@ -1,19 +1,23 @@
-#include <cstdio>
+#include "keys.hpp"
+#include "term.hpp"
+
 #include <print>
-#include "raw_lock.hpp"
 
 int main() {
-	nsn::raw_lock raw_lock;
+	nsn::term term;
+
+	term.screen_alternate(true);
+	term.cursor_alternate(true);
+	term.cursor_invisible(true);
+
+	term.echo(false);
+	term.signal(false);
 
 	while (true) {
-		const int input = std::getchar();
-		if (input == EOF) {
+		if (nsn::keys key = term.read_key(); key == nsn::keys::ctrl_q) {
 			break;
-		}
-		const char c = static_cast<char>(input);
-		std::print("{}\v\r", c);
-		if (c == 'Q') {
-			break;
+		} else if (char c = static_cast<char>(key)) {
+			std::print("{}\v\r", c);
 		}
 	}
 }

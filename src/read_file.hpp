@@ -4,5 +4,5 @@
 #include <string>
 
 namespace nsn {
-	std::string read(std::FILE*);
+	[[nodiscard]] std::string read_file(std::FILE* stream);
 }

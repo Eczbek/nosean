@@ -1,5 +1,6 @@
 # NOSEAN
 - [X] Reading files
+- [X] Raw mode
 - [ ] Commandline arguments
 - [ ] Error on reading file
 - [ ] Writing files
