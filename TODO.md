@@ -1,5 +1,5 @@
 # NOSEAN
-- [ ] Reading files
+- [X] Reading files
 - [ ] Commandline arguments
 - [ ] Error on reading file
 - [ ] Writing files
