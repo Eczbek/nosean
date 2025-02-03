@@ -1,23 +1,87 @@
 #include "keys.hpp"
+#include "read_file.hpp"
 #include "term.hpp"
 
+#include <chrono>
+#include <cstdio>
 #include <print>
+#include <string>
+#include <thread>
 
-int main() {
+// Everything is broken
+
+using namespace std::chrono_literals;
+
+int main(int argc, char** argv) {
+	std::string buf;
+	int buf_y = 0;
+	int buf_x = 0;
+
+	if (argc > 2) {
+		std::print("Usage: `nsn [file]`\n");
+		return 64;
+	} else if (argc == 2) {
+		std::FILE* file = std::fopen(argv[1], "r");
+		if (!file) {
+			std::print("Failed to open file '{}'\n", argv[1]);
+			return 66;
+		}
+		buf = nsn::read_file(file);
+		std::fclose(file);
+	}
+
 	nsn::term term;
-
 	term.screen_alternate(true);
 	term.cursor_alternate(true);
 	term.cursor_invisible(true);
-
 	term.echo(false);
 	term.signal(false);
+	term.block(false);
+	std::fflush(stdout);
 
-	while (true) {
-		if (nsn::keys key = term.read_key(); key == nsn::keys::ctrl_q) {
+	int prev_h = 0;
+	int prev_w = 0;
+
+	bool run = true;
+	unsigned long long int tick = 0;
+	while (tick++, run) {
+		std::this_thread::sleep_for(10ms);
+
+		term.set_cursor(0, 0);
+		std::print("{}", tick);
+
+		// Draw cursor
+		term.set_cursor(buf_y, buf_x);
+		term.bg(255, 0, 0);
+		std::print(" ");
+
+		// Read input
+		switch (nsn::keys key = term.read_key()) {
+		case nsn::keys::backspace:
+			buf.pop_back();
 			break;
-		} else if (char c = static_cast<char>(key)) {
-			std::print("{}\v\r", c);
+		case nsn::keys::ctrl_q:
+			run = false;
+			break;
+		case nsn::keys::s:
+			++buf_y;
+			break;
+		case nsn::keys::w:
+			--buf_y;
+			break;
+		case nsn::keys::d:
+			++buf_x;
+			break;
+		case nsn::keys::a:
+			--buf_x;
+			break;
+		default:
+			if (char c = static_cast<char>(key)) {
+				buf += c;
+			}
 		}
 	}
+
+	term.cursor_alternate(false);
+	term.screen_alternate(false);
 }

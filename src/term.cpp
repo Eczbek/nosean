@@ -141,19 +141,19 @@ std::pair<int, int> nsn::term::get_cursor() {
 	const bool prev_canon = this->is_canon;
 	this->canon(false);
 	std::print(this->out, "\x1B[6n");
-	int x;
 	int y;
-	std::fscanf(this->in, "\x1B[%i;%iR", &x, &y);
+	int x;
+	std::fscanf(this->in, "\x1B[%i;%iR", &y, &x);
 	this->canon(prev_canon);
-	return std::make_pair(x - 1, y - 1);
+	return std::make_pair(y - 1, x - 1);
 }
 
-void nsn::term::set_cursor(int x, int y) {
-	std::print(this->out, "\x1B[{};{}H", x, y);
+void nsn::term::set_cursor(int line, int row) {
+	std::print(this->out, "\x1B[{};{}H", line + 1, row + 1);
 }
 
-void nsn::term::move_cursor(int x, int y) {
-	std::print(this->out, "\x1B[{}{}\x1B[{}{}", std::abs(x), "CD"[x < 0], std::abs(y), "BA"[y < 0]);
+void nsn::term::move_cursor(int line, int row) {
+	std::print(this->out, "\x1B[{}{}\x1B[{}{}", std::abs(line), "CD"[line < 0], std::abs(row), "BA"[row < 0]);
 }
 
 void nsn::term::cursor_invisible(bool x) {
@@ -183,7 +183,7 @@ void nsn::term::screen_alternate(bool x) {
 std::pair<int, int> nsn::term::screen_size() {
 	::winsize size;
 	::ioctl(::fileno(this->in), TIOCGWINSZ, &size);
-	return std::make_pair(size.ws_col, size.ws_row);
+	return std::make_pair(size.ws_row, size.ws_col);
 }
 
 void nsn::term::clear_screen() {

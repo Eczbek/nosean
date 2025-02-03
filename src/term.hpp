@@ -59,9 +59,9 @@ namespace nsn {
 
 		[[nodiscard]] std::pair<int, int> get_cursor();
 
-		void set_cursor(int x, int y);
+		void set_cursor(int line, int row);
 
-		void move_cursor(int x, int y);
+		void move_cursor(int line, int row);
 
 		void cursor_invisible(bool x);
 
