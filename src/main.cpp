@@ -1,6 +1,7 @@
 #include "keys.hpp"
 #include "read_file.hpp"
 #include "term.hpp"
+#include "config.hpp"
 
 #include <chrono>
 #include <cstdio>
@@ -9,10 +10,14 @@
 #include <thread>
 
 // Everything is broken
+// i am well aware
 
 using namespace std::chrono_literals;
 
 int main(int argc, char** argv) {
+	// load config
+	nsn::load_config();
+
 	std::string buf;
 	int buf_y = 0;
 	int buf_x = 0;
@@ -56,26 +61,21 @@ int main(int argc, char** argv) {
 		std::print(" ");
 
 		// Read input
-		switch (nsn::keys key = term.read_key()) {
-		case nsn::keys::backspace:
+		nsn::keys key = term.read_key();
+
+		if (key == nsn::keys::backspace)
 			buf.pop_back();
-			break;
-		case nsn::keys::ctrl_q:
+		else if (key == nsn::get_keybind("quit"))
 			run = false;
-			break;
-		case nsn::keys::s:
+		else if (key == nsn::keys::s)
 			++buf_y;
-			break;
-		case nsn::keys::w:
+		else if (key == nsn::keys::w)
 			--buf_y;
-			break;
-		case nsn::keys::d:
+		else if (key == nsn::keys::d)
 			++buf_x;
-			break;
-		case nsn::keys::a:
+		else if (key == nsn::keys::a)
 			--buf_x;
-			break;
-		default:
+		else {
 			if (char c = static_cast<char>(key)) {
 				buf += c;
 			}
