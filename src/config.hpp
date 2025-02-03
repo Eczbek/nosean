@@ -9,4 +9,5 @@ namespace nsn {
 
     void load_config(const std::string path = "../nsn_config.json");
     [[nodiscard]] nsn::keys get_keybind(std::string action);
+    [[nodiscard]] nsn::keys get_keybind(std::string subset, std::string action);
 }

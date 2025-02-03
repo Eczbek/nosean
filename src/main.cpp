@@ -61,19 +61,20 @@ int main(int argc, char** argv) {
 		std::print(" ");
 
 		// Read input
+		// Eventually putting this into it's own big file for all the actions and functions at some point might be good
 		nsn::keys key = term.read_key();
 
 		if (key == nsn::keys::backspace)
 			buf.pop_back();
 		else if (key == nsn::get_keybind("quit"))
 			run = false;
-		else if (key == nsn::keys::s)
+		else if (key == nsn::get_keybind("cursor", "down"))
 			++buf_y;
-		else if (key == nsn::keys::w)
+		else if (key == nsn::get_keybind("cursor", "up"))
 			--buf_y;
-		else if (key == nsn::keys::d)
+		else if (key == nsn::get_keybind("cursor", "right"))
 			++buf_x;
-		else if (key == nsn::keys::a)
+		else if (key == nsn::get_keybind("cursor", "left"))
 			--buf_x;
 		else {
 			if (char c = static_cast<char>(key)) {
