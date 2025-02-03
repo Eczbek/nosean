@@ -1,0 +1,1 @@
+/Library/Developer/CommandLineTools/usr/bin/c++  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/nsn.dir/src/config.cpp.o CMakeFiles/nsn.dir/src/main.cpp.o CMakeFiles/nsn.dir/src/read_file.cpp.o CMakeFiles/nsn.dir/src/term.cpp.o -o nsn

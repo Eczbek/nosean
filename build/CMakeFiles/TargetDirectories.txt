@@ -1,0 +1,3 @@
+/Users/sam/Desktop/root/code/nosean/build/CMakeFiles/nsn.dir
+/Users/sam/Desktop/root/code/nosean/build/CMakeFiles/edit_cache.dir
+/Users/sam/Desktop/root/code/nosean/build/CMakeFiles/rebuild_cache.dir
