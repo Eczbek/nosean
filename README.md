@@ -2,10 +2,10 @@
 - [X] Reading files
 - [X] Raw mode
 - [ ] Commandline arguments
-- [ ] Error on reading file
+- [X] Error on reading file
 - [ ] Writing files
 - [ ] Error on writing file
 - [ ] Displaying file
 - [ ] Resizing display
 - [ ] Text highlighting
-- [ ] Keybinds?
+- [ ] Keybinds

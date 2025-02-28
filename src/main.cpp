@@ -1,6 +1,3 @@
-#include "keys.hpp"
-#include "read_file.hpp"
-#include "term.hpp"
 #include "config.hpp"
 
 #include <chrono>
@@ -9,80 +6,73 @@
 #include <string>
 #include <thread>
 
-// Everything is broken
-// i am well aware
+#include <xieite/io/file.hpp>
+#include <xieite/io/keys.hpp>
+#include <xieite/io/keys_ch.hpp>
+#include <xieite/io/read.hpp>
+#include <xieite/io/term.hpp>
+#include <xieite/sys/exit.hpp>
 
-using namespace std::chrono_literals;
+using namespace std::literals;
 
 int main(int argc, char** argv) {
-	// load config
-	nsn::load_config();
-
-	std::string buf;
-	int buf_y = 0;
-	int buf_x = 0;
-
 	if (argc > 2) {
-		std::print("Usage: `nsn [file]`\n");
-		return 64;
+		std::puts("Usage: `nsn [file]`");
+		return xieite::exit::err_usage;
 	} else if (argc == 2) {
-		std::FILE* file = std::fopen(argv[1], "r");
+		auto file = xieite::file(argv[1], "r");
 		if (!file) {
 			std::print("Failed to open file '{}'\n", argv[1]);
-			return 66;
+			return xieite::exit::err_no_input;
 		}
-		buf = nsn::read_file(file);
-		std::fclose(file);
+		nsn::file_buf = xieite::read(file.get());
 	}
 
-	nsn::term term;
-	term.screen_alternate(true);
-	term.cursor_alternate(true);
-	term.cursor_invisible(true);
+	xieite::term term;
+	term.screen_alt(true);
+	term.cursor_alt(true);
+	term.cursor_invis(true);
 	term.echo(false);
 	term.signal(false);
 	term.block(false);
-	std::fflush(stdout);
 
-	int prev_h = 0;
-	int prev_w = 0;
-
-	bool run = true;
-	unsigned long long int tick = 0;
-	while (tick++, run) {
+	while (nsn::running) {
 		std::this_thread::sleep_for(10ms);
 
+		// Draw border
+		const auto [height, width] = term.screen_size();
+		nsn::screen_height = height;
+		nsn::screen_width = width;
+		term.clear_screen();
 		term.set_cursor(0, 0);
-		std::print("{}", tick);
-
-		// Draw cursor
-		term.set_cursor(buf_y, buf_x);
-		term.bg(255, 0, 0);
-		std::print(" ");
+		std::fputs(std::string(width, '#').c_str(), term.out);
+		for (int y = 1; y < (height - 1); ++y) {
+			std::fputs("\v\r#", term.out);
+			term.set_cursor(y, width - 1);
+			std::fputc('#', term.out);
+		}
+		std::fputs("\v\r", term.out);
+		std::fputs(std::string(width, '#').c_str(), term.out);
+		std::fflush(term.out);
 
 		// Read input
-		// Eventually putting this into it's own big file for all the actions and functions at some point might be good
-		nsn::keys key = term.read_key();
-
-		if (key == nsn::keys::backspace)
-			buf.pop_back();
-		else if (key == nsn::get_keybind("quit"))
-			run = false;
-		else if (key == nsn::get_keybind("cursor", "down"))
-			++buf_y;
-		else if (key == nsn::get_keybind("cursor", "up"))
-			--buf_y;
-		else if (key == nsn::get_keybind("cursor", "right"))
-			++buf_x;
-		else if (key == nsn::get_keybind("cursor", "left"))
-			--buf_x;
-		else {
-			if (char c = static_cast<char>(key)) {
-				buf += c;
+		xieite::keys key = term.read_key();
+		if (const auto action = nsn::actions.find(key); action != nsn::actions.end()) {
+			action->second();
+		} else {
+			switch (key) {
+			case xieite::keys::backsp:
+				// TODO: Erase character
+				break;
+			default:
+				if (const char c = xieite::keys_ch(key)) {
+					// TODO: Insert character
+				}
 			}
 		}
 	}
 
-	term.cursor_alternate(false);
-	term.screen_alternate(false);
+	term.cursor_invis(false);
+	term.cursor_alt(false);
+	term.screen_alt(false);
 }

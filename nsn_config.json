@@ -1,13 +1,10 @@
 {
-    "keybinds": {
-        "quit": "Q",
-        "cursor": {
-            "up": "w",
-            "left": "a",
-            "down": "s",
-            "right": "d",
-            "line_right": "l",
-            "line_left": "j"
-        }
-    }
+	"keybinds": {
+		"ctrl_q": "quit",
+
+		"arrow_up": "cursor_up",
+		"arrow_down": "cursor_down",
+		"arrow_right": "cursor_right",
+		"arrow_left": "cursor_left"
+	}
 }
